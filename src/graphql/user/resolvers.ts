@@ -18,7 +18,14 @@ const queries = {
       console.error("Error fetching user:", err.message);
       throw new Error("Failed to fetch user");
     }
-  }
+  },
+  getUserToken: async(_: any, payload: {email: string, password: string}) =>{
+    const token = await UserService.getUserToken({ 
+      email: payload.email, 
+      password: payload.password 
+    });
+    return token;
+  } 
 };
 
 const mutations = {

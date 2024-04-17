@@ -34,6 +34,13 @@ const queries = {
             console.error("Error fetching user:", err.message);
             throw new Error("Failed to fetch user");
         }
+    }),
+    getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const token = yield index_1.default.getUserToken({
+            email: payload.email,
+            password: payload.password
+        });
+        return token;
     })
 };
 const mutations = {

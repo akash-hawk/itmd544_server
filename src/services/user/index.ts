@@ -1,5 +1,8 @@
 import { createHmac, randomBytes } from "node:crypto";
 import { prismaClient } from "../../lib/db";
+import jwt from "jsonwebtoken";
+
+const SECRET_KEY = "ITMD-544";
 
 export interface CreateUserPayload {
   firstName: string,
@@ -8,7 +11,36 @@ export interface CreateUserPayload {
   password: string
 }
 
+export interface GetUserTokenPayload {
+  email: string,
+  password: string
+}
+
 class UserService {
+
+  private static generateHash(salt: string, password: string) {
+    return createHmac('sha256', salt).update(password).digest('hex');;
+  }
+
+  private static getUserByEmail(email: string) {
+    return prismaClient.user.findUnique({where: {email}});
+  }
+
+  public static async getUserToken(payload: GetUserTokenPayload) {
+    const {email, password} = payload;
+    const user = await UserService.getUserByEmail(email);
+    if(!user) throw new Error("User not found !");
+    // user exists
+    const hashedPassword = UserService.generateHash(user.salt, password);
+    if(hashedPassword !== user.password) throw new Error("Incorrect Password !");
+    // valid user - generate token
+    const token = jwt.sign({
+      id: user.id,
+      email: user.email
+    }, SECRET_KEY);
+    return token;
+  }
+
   public static async createUser(payload: CreateUserPayload) {
     const { firstName, lastName, email, password } = payload;
 
@@ -30,7 +62,7 @@ class UserService {
 
     // Generate salt and hash the password
     const salt = randomBytes(32).toString("hex");
-    const hashedPassword = createHmac('sha256', salt).update(password).digest('hex');
+    const hashedPassword = UserService.generateHash(salt, password)
 
     try {
       // Attempt to create user in the database

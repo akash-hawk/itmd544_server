@@ -8,10 +8,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_crypto_1 = require("node:crypto");
 const db_1 = require("../../lib/db");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const SECRET_KEY = "ITMD-544";
 class UserService {
+    static generateHash(salt, password) {
+        return (0, node_crypto_1.createHmac)('sha256', salt).update(password).digest('hex');
+        ;
+    }
+    static getUserByEmail(email) {
+        return db_1.prismaClient.user.findUnique({ where: { email } });
+    }
+    static getUserToken(payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email, password } = payload;
+            const user = yield UserService.getUserByEmail(email);
+            if (!user)
+                throw new Error("User not found !");
+            // user exists
+            const hashedPassword = UserService.generateHash(user.salt, password);
+            if (hashedPassword !== user.password)
+                throw new Error("Incorrect Password !");
+            // valid user - generate token
+            const token = jsonwebtoken_1.default.sign({
+                id: user.id,
+                email: user.email
+            }, SECRET_KEY);
+            return token;
+        });
+    }
     static createUser(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { firstName, lastName, email, password } = payload;
@@ -30,7 +60,7 @@ class UserService {
             }
             // Generate salt and hash the password
             const salt = (0, node_crypto_1.randomBytes)(32).toString("hex");
-            const hashedPassword = (0, node_crypto_1.createHmac)('sha256', salt).update(password).digest('hex');
+            const hashedPassword = UserService.generateHash(salt, password);
             try {
                 // Attempt to create user in the database
                 const user = yield db_1.prismaClient.user.create({
