@@ -9,6 +9,15 @@ const queries = {
       console.error("Error fetching users:", err.message);
       throw new Error("Failed to fetch users");
     }
+  },
+  getUserById: async (_: any, { userId }: { userId: string }) => {
+    try {
+      const user = await UserService.getUserById(userId);
+      return user;
+    } catch (err: any) {
+      console.error("Error fetching user:", err.message);
+      throw new Error("Failed to fetch user");
+    }
   }
 };
 
@@ -22,6 +31,20 @@ const mutations = {
       };
     } catch (err: any) {
       console.error("Error creating user:", err.message);
+      return {
+        success: false,
+        message: err.message
+      };
+    }
+  },
+  updateUser: async (_: any, { userId, firstName, lastName }: { userId: string, firstName: string, lastName: string }) => {
+    try {
+      await UserService.updateUser(userId, { firstName, lastName });
+      return {
+        success: true
+      };
+    } catch (err: any) {
+      console.error("Error updating user:", err.message);
       return {
         success: false,
         message: err.message

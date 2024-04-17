@@ -62,5 +62,41 @@ class UserService {
             }
         });
     }
+    static getUserById(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield db_1.prismaClient.user.findUnique({
+                    where: {
+                        id: userId
+                    }
+                });
+                if (!user) {
+                    throw new Error("User not found");
+                }
+                return user;
+            }
+            catch (error) {
+                throw new Error("An error occurred while fetching the user");
+            }
+        });
+    }
+    static updateUser(userId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield db_1.prismaClient.user.update({
+                    where: {
+                        id: userId
+                    },
+                    data: {
+                        firstName: data.firstName,
+                        lastName: data.lastName
+                    }
+                });
+            }
+            catch (error) {
+                throw new Error("An error occurred while updating the user");
+            }
+        });
+    }
 }
 exports.default = UserService;

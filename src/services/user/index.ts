@@ -60,6 +60,38 @@ class UserService {
       throw new Error("An error occurred while fetching the users");
     }
   }
+
+  public static async getUserById(userId: string) {
+    try {
+      const user = await prismaClient.user.findUnique({
+        where: {
+          id: userId
+        }
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user;
+    } catch (error) {
+      throw new Error("An error occurred while fetching the user");
+    }
+  }
+
+  public static async updateUser(userId: string, data: { firstName: string, lastName: string }) {
+    try {
+      await prismaClient.user.update({
+        where: {
+          id: userId
+        },
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName
+        }
+      });
+    } catch (error) {
+      throw new Error("An error occurred while updating the user");
+    }
+  }
 }
 
 export default UserService;

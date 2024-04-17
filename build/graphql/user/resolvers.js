@@ -24,6 +24,16 @@ const queries = {
             console.error("Error fetching users:", err.message);
             throw new Error("Failed to fetch users");
         }
+    }),
+    getUserById: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, { userId }) {
+        try {
+            const user = yield index_1.default.getUserById(userId);
+            return user;
+        }
+        catch (err) {
+            console.error("Error fetching user:", err.message);
+            throw new Error("Failed to fetch user");
+        }
     })
 };
 const mutations = {
@@ -37,6 +47,21 @@ const mutations = {
         }
         catch (err) {
             console.error("Error creating user:", err.message);
+            return {
+                success: false,
+                message: err.message
+            };
+        }
+    }),
+    updateUser: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { userId, firstName, lastName }) {
+        try {
+            yield index_1.default.updateUser(userId, { firstName, lastName });
+            return {
+                success: true
+            };
+        }
+        catch (err) {
+            console.error("Error updating user:", err.message);
             return {
                 success: false,
                 message: err.message

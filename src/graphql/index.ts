@@ -16,7 +16,6 @@ async function createApolloServer() {
         userId: String
         message: String
       }
-
       type User {
         id: ID
         firstName: String
@@ -24,6 +23,10 @@ async function createApolloServer() {
         email: String!
         password: String!
         profileImage: String
+      }
+      type UpdateUserResponse {
+        success: Boolean!
+        message: String
       }
     `,
     resolvers: {
