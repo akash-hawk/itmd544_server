@@ -17,7 +17,8 @@ model User {
   id String @id @default(uuid())
   firstName String @map("first_name")
   lastName String @map("last_name")
-  profileImage String? @map("profile_image")
+  profileImage String? @map("profile_image") @default("")
+  userType    String? @default("member")
   email String @unique
   password String 
   salt String

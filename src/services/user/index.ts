@@ -41,6 +41,14 @@ class UserService {
     return token;
   }
 
+  public static async decodeJWTToken(token: string) {
+    try {
+      return jwt.verify(token, SECRET_KEY);
+    } catch (error) {
+      throw new Error("Invalid token");
+    }
+  }
+
   public static async createUser(payload: CreateUserPayload) {
     const { firstName, lastName, email, password } = payload;
 

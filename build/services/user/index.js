@@ -42,6 +42,16 @@ class UserService {
             return token;
         });
     }
+    static decodeJWTToken(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return jsonwebtoken_1.default.verify(token, SECRET_KEY);
+            }
+            catch (error) {
+                throw new Error("Invalid token");
+            }
+        });
+    }
     static createUser(payload) {
         return __awaiter(this, void 0, void 0, function* () {
             const { firstName, lastName, email, password } = payload;

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const graphql_1 = __importDefault(require("./graphql"));
+const user_1 = __importDefault(require("./services/user"));
 const { expressMiddleware } = require("@apollo/server/express4");
 (function init() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -23,7 +24,22 @@ const { expressMiddleware } = require("@apollo/server/express4");
         app.get('/', (req, res) => {
             res.json({ message: "Server is up and running !" });
         });
-        app.use('/graphql', expressMiddleware(yield (0, graphql_1.default)()));
+        app.use('/graphql', expressMiddleware(yield (0, graphql_1.default)(), {
+            context: (_a) => __awaiter(this, [_a], void 0, function* ({ req }) {
+                const token = req.headers['token'];
+                if (!token) {
+                    return {};
+                }
+                try {
+                    const user = yield user_1.default.decodeJWTToken(token);
+                    return { user };
+                }
+                catch (err) {
+                    console.error("Error decoding JWT token:", err.message);
+                    return {};
+                }
+            })
+        }));
         app.listen(PORT, () => {
             console.log("Server started at: " + PORT);
         });

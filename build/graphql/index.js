@@ -15,28 +15,12 @@ function createApolloServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const gqlServer = new server_1.ApolloServer({
             typeDefs: `
+      ${user_1.User.typeDefs}
       type Query {
         ${user_1.User.queries}
       }
       type Mutation {
         ${user_1.User.mutations}
-      }
-      type CreateUserResponse {
-        success: Boolean!
-        userId: String
-        message: String
-      }
-      type User {
-        id: ID
-        firstName: String
-        lastName: String
-        email: String!
-        password: String!
-        profileImage: String
-      }
-      type UpdateUserResponse {
-        success: Boolean!
-        message: String
       }
     `,
             resolvers: {
