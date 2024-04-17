@@ -1,7 +1,7 @@
-import {createHmac} from "node:crypto";
+import { createHmac, randomBytes } from "node:crypto";
 import { prismaClient } from "../../lib/db";
 
-interface CreateUserPayload {
+export interface CreateUserPayload {
   firstName: string,
   lastName: string
   email: string,
@@ -11,12 +11,15 @@ interface CreateUserPayload {
 class UserService {
   public static createUser(payload: CreateUserPayload) {
     const {firstName, lastName, email, password} = payload;
+    const salt = randomBytes(32).toString();
+    const hashedPassword = createHmac('sha256', salt).update(password).digest('hex');
     return prismaClient.user.create({
       data: {
         firstName, 
         lastName, 
         email, 
-        password
+        salt,
+        password: hashedPassword
       }
     });
   }

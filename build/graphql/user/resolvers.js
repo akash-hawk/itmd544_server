@@ -8,12 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
+const index_1 = __importDefault(require("../../services/user/index"));
 const queries = {};
 const mutations = {
-    createUser: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, {}) {
-        return "someIdWillGoHere....";
+    createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const res = yield index_1.default.createUser(payload);
+            return res.id;
+        }
+        catch (err) {
+            console.error(err);
+            return "";
+        }
     })
 };
 exports.resolvers = {
