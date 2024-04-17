@@ -138,5 +138,19 @@ class UserService {
             }
         });
     }
+    static deleteUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield db_1.prismaClient.user.delete({
+                    where: {
+                        id: userId
+                    }
+                });
+            }
+            catch (error) {
+                throw new Error("An error occurred while updating the post");
+            }
+        });
+    }
 }
 exports.default = UserService;

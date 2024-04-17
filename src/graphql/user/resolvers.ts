@@ -64,6 +64,20 @@ const mutations = {
         message: err.message
       };
     }
+  },
+  deleteUser: async (_: any, { userId }: {userId: string}) => {
+    try {
+      await UserService.deleteUser(userId);
+      return {
+        success: true
+      };
+    } catch (err: any) {
+      console.error('Error deleting user:', err);
+      return {
+        success: false,
+        message: err.message
+      };
+    }
   }
 };
 

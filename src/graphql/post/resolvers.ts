@@ -50,6 +50,20 @@ const mutations = {
         message: err.message
       };
     }
+  },
+  deletePost: async (_: any, { postId }: {postId: string}) => {
+    try {
+      await PostService.deletePost(postId);
+      return {
+        success: true
+      };
+    } catch (err: any) {
+      console.error('Error deleting post:', err);
+      return {
+        success: false,
+        message: err.message
+      };
+    }
   }
 };
 

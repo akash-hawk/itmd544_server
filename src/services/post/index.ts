@@ -65,6 +65,19 @@ class PostService {
       throw new Error("An error occurred while updating the post");
     }
   }
+
+  public static async deletePost(postId: string) {
+    try {
+      await prismaClient.post.delete({
+        where: {
+          id: postId
+        }
+      });
+    } catch (error) {
+      throw new Error("An error occurred while updating the post");
+    }
+  }
+
 }
 
 export default PostService;

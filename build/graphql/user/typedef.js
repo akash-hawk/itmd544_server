@@ -19,4 +19,8 @@ exports.typeDefs = `
     success: Boolean!
     message: String
   }
+  type DeletePostResponse {
+    success: Boolean!
+    message: String
+  }
 `;

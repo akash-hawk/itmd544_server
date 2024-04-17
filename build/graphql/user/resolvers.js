@@ -81,6 +81,21 @@ const mutations = {
                 message: err.message
             };
         }
+    }),
+    deleteUser: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { userId }) {
+        try {
+            yield index_1.default.deleteUser(userId);
+            return {
+                success: true
+            };
+        }
+        catch (err) {
+            console.error('Error deleting user:', err);
+            return {
+                success: false,
+                message: err.message
+            };
+        }
     })
 };
 exports.resolvers = {

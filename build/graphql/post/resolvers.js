@@ -67,6 +67,21 @@ const mutations = {
                 message: err.message
             };
         }
+    }),
+    deletePost: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { postId }) {
+        try {
+            yield index_1.default.deletePost(postId);
+            return {
+                success: true
+            };
+        }
+        catch (err) {
+            console.error('Error deleting post:', err);
+            return {
+                success: false,
+                message: err.message
+            };
+        }
     })
 };
 exports.resolvers = {

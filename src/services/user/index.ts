@@ -132,6 +132,18 @@ class UserService {
       throw new Error("An error occurred while updating the user");
     }
   }
+
+  public static async deleteUser(userId: string) {
+    try {
+      await prismaClient.user.delete({
+        where: {
+          id: userId
+        }
+      });
+    } catch (error) {
+      throw new Error("An error occurred while updating the post");
+    }
+  }
 }
 
 export default UserService;
