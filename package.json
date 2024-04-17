@@ -1,0 +1,30 @@
+{
+  "name": "backend_server",
+  "version": "1.0.0",
+  "description": "Server app for backend development ITMD-544 course",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/index.js",
+    "dev": "tsc-watch --onSuccess \"npm start\""
+  },
+  "author": "Akash Goindi",
+  "license": "Unlicense",
+  "dependencies": {
+    "@apollo/server": "^4.10.3",
+    "@prisma/client": "^5.12.1",
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "graphql": "^16.8.1",
+    "nodemon": "^3.1.0",
+    "tsc-watch": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "prisma": "^5.12.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
