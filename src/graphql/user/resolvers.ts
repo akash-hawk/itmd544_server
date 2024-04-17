@@ -1,17 +1,21 @@
-import UserService, {CreateUserPayload} from "../../services/user/index";
+import UserService, { CreateUserPayload } from "../../services/user/index";
 
-const queries = {
-  
-};
+const queries = {};
 
 const mutations = {
-  createUser: async(_: any, payload: CreateUserPayload) => {
+  createUser: async (_: any, payload: CreateUserPayload) => {
     try {
-      const res = await UserService.createUser(payload);
-      return res.id; 
-    } catch(err) {
-      console.error(err)
-      return "";
+      const userId = await UserService.createUser(payload);
+      return {
+        success: true,
+        userId
+      };
+    } catch (err: any) {
+      console.error("Error creating user:", err.message);
+      return {
+        success: false,
+        message: err.message
+      };
     }
   }
 };

@@ -11,6 +11,11 @@ async function createApolloServer() {
       type Mutation {
         ${User.mutations}
       }
+      type CreateUserResponse {
+        success: Boolean!
+        userId: String
+        message: String
+      }
     `,
     resolvers: {
       Query: {

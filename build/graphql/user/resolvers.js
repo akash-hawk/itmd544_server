@@ -18,12 +18,18 @@ const queries = {};
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const res = yield index_1.default.createUser(payload);
-            return res.id;
+            const userId = yield index_1.default.createUser(payload);
+            return {
+                success: true,
+                userId
+            };
         }
         catch (err) {
-            console.error(err);
-            return "";
+            console.error("Error creating user:", err.message);
+            return {
+                success: false,
+                message: err.message
+            };
         }
     })
 };
