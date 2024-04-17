@@ -27,7 +27,6 @@ const queries = {
     return token;
   },
   getCurrentUser: async(_: any, params: any, context: any) => {
-    console.log("======>", context)
     if(context && context.user) {
       const userInfo = await UserService.getUserById(context.user.id);
       return userInfo;

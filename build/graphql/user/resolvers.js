@@ -43,7 +43,6 @@ const queries = {
         return token;
     }),
     getCurrentUser: (_, params, context) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("======>", context);
         if (context && context.user) {
             const userInfo = yield index_1.default.getUserById(context.user.id);
             return userInfo;
