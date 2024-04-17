@@ -6,7 +6,7 @@ async function createApolloServer() {
   const gqlServer = new ApolloServer({
     typeDefs: `
       type Query {
-        hello: String
+        ${User.queries}
       }
       type Mutation {
         ${User.mutations}
@@ -16,10 +16,19 @@ async function createApolloServer() {
         userId: String
         message: String
       }
+
+      type User {
+        id: ID
+        firstName: String
+        lastName: String
+        email: String!
+        password: String!
+        profileImage: String
+      }
     `,
     resolvers: {
       Query: {
-        hello: () => {return "Hola"}
+        ...User.resolvers.queries
       },
       Mutation: { 
         ...User.resolvers.mutations

@@ -16,7 +16,7 @@ function createApolloServer() {
         const gqlServer = new server_1.ApolloServer({
             typeDefs: `
       type Query {
-        hello: String
+        ${user_1.User.queries}
       }
       type Mutation {
         ${user_1.User.mutations}
@@ -26,11 +26,18 @@ function createApolloServer() {
         userId: String
         message: String
       }
+
+      type User {
+        id: ID
+        firstName: String
+        lastName: String
+        email: String!
+        password: String!
+        profileImage: String
+      }
     `,
             resolvers: {
-                Query: {
-                    hello: () => { return "Hola"; }
-                },
+                Query: Object.assign({}, user_1.User.resolvers.queries),
                 Mutation: Object.assign({}, user_1.User.resolvers.mutations)
             }
         });

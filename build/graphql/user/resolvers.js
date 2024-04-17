@@ -14,7 +14,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const index_1 = __importDefault(require("../../services/user/index"));
-const queries = {};
+const queries = {
+    getUsers: () => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const users = yield index_1.default.getAllUsers();
+            return users; // Just return the array of users directly
+        }
+        catch (err) {
+            console.error("Error fetching users:", err.message);
+            throw new Error("Failed to fetch users");
+        }
+    })
+};
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         try {

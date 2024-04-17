@@ -48,8 +48,16 @@ class UserService {
       return user.id;
     } catch (error) {
       // Handle any database-related errors
-      console.error("Error creating user:", error);
       throw new Error("An error occurred while creating the user");
+    }
+  }
+
+  public static async getAllUsers(){
+    try {
+      const users = await prismaClient.user.findMany();
+      return users;
+    } catch (error) {
+      throw new Error("An error occurred while fetching the users");
     }
   }
 }
