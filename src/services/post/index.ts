@@ -27,11 +27,7 @@ class PostService {
 
   public static async getAllPosts(){
     try {
-      const posts = await prismaClient.post.findMany({
-        include: {
-          user: true,
-        }
-      });
+      const posts = await prismaClient.post.findMany();
       return posts;
     } catch (error) {
       throw new Error("An error occurred while fetching the posts");

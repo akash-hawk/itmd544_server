@@ -7,7 +7,7 @@ exports.typeDefs = `
     title: String!
     body: String!
     userId: String!
-    user: User
+    user: User!
     createdAt: String
   }
   type CreatePostResponse {

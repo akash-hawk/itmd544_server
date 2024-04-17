@@ -32,11 +32,7 @@ class PostService {
     static getAllPosts() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const posts = yield db_1.prismaClient.post.findMany({
-                    include: {
-                        user: true,
-                    }
-                });
+                const posts = yield db_1.prismaClient.post.findMany();
                 return posts;
             }
             catch (error) {

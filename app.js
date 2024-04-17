@@ -25,7 +25,6 @@ async function startServer() {
         userId: ID!
         user: User
       }
-
       type Query {
         getTodos: [Todo]
         getUsers: [User]

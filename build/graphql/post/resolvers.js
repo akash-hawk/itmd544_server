@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const index_1 = __importDefault(require("../../services/post/index"));
-const user_1 = __importDefault(require("../../services/user"));
 const queries = {
     getPosts: () => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -46,13 +45,6 @@ const mutations = {
     })
 };
 exports.resolvers = {
-    Post: {
-        user: (post) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log("=============================>", post);
-            const user = yield user_1.default.getUserById(post.userId);
-            return user;
-        })
-    },
     queries,
     mutations
 };

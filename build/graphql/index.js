@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@apollo/server");
 const user_1 = require("./user");
 const post_1 = require("./post");
+const user_2 = __importDefault(require("../services/user"));
 function createApolloServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const gqlServer = new server_1.ApolloServer({
@@ -28,6 +32,12 @@ function createApolloServer() {
       }
     `,
             resolvers: {
+                Post: {
+                    user: (post) => __awaiter(this, void 0, void 0, function* () {
+                        const user = yield user_2.default.getUserById(post.userId);
+                        return user;
+                    })
+                },
                 Query: Object.assign(Object.assign({}, user_1.User.resolvers.queries), post_1.Post.resolvers.queries),
                 Mutation: Object.assign(Object.assign({}, user_1.User.resolvers.mutations), post_1.Post.resolvers.mutations)
             }

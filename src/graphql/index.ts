@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { prismaClient } from '../lib/db';
 import {User} from './user';
 import {Post} from './post';
+import UserService from '../services/user';
 
 async function createApolloServer() {
   const gqlServer = new ApolloServer({
@@ -18,6 +19,12 @@ async function createApolloServer() {
       }
     `,
     resolvers: {
+      Post: {
+        user: async (post: any) => {
+          const user = await UserService.getUserById(post.userId);
+          return user;
+        }
+      },
       Query: {
         ...User.resolvers.queries,
         ...Post.resolvers.queries

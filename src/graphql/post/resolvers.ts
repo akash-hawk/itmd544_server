@@ -32,13 +32,6 @@ const mutations = {
 };
 
 export const resolvers = {
-  Post: {
-    user: async (post: any) => {
-      console.log("=============================>", post)
-      const user = await UserService.getUserById(post.userId);
-      return user;
-    }
-  },
   queries,
   mutations
 };
