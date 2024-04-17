@@ -36,6 +36,20 @@ const mutations = {
         message: err.message
       };
     }
+  },
+  updatePost: async (_: any, { postId, title, body }: { postId: string, title: string, body: string }) => {
+    try {
+      await PostService.updatePost(postId, { title, body });
+      return {
+        success: true
+      };
+    } catch (err: any) {
+      console.error("Error updating post:", err.message);
+      return {
+        success: false,
+        message: err.message
+      };
+    }
   }
 };
 

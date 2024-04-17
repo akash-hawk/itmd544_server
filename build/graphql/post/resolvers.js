@@ -52,6 +52,21 @@ const mutations = {
                 message: err.message
             };
         }
+    }),
+    updatePost: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { postId, title, body }) {
+        try {
+            yield index_1.default.updatePost(postId, { title, body });
+            return {
+                success: true
+            };
+        }
+        catch (err) {
+            console.error("Error updating post:", err.message);
+            return {
+                success: false,
+                message: err.message
+            };
+        }
     })
 };
 exports.resolvers = {

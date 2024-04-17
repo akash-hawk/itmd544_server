@@ -58,5 +58,23 @@ class PostService {
             }
         });
     }
+    static updatePost(postId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield db_1.prismaClient.post.update({
+                    where: {
+                        id: postId
+                    },
+                    data: {
+                        title: data.title,
+                        body: data.body
+                    }
+                });
+            }
+            catch (error) {
+                throw new Error("An error occurred while updating the post");
+            }
+        });
+    }
 }
 exports.default = PostService;

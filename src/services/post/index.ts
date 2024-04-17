@@ -49,6 +49,22 @@ class PostService {
       throw new Error("An error occurred while fetching the post !");
     }
   }
+
+  public static async updatePost(postId: string, data: { title: string, body: string }) {
+    try {
+      await prismaClient.post.update({
+        where: {
+          id: postId
+        },
+        data: {
+          title: data.title,
+          body: data.body
+        }
+      });
+    } catch (error) {
+      throw new Error("An error occurred while updating the post");
+    }
+  }
 }
 
 export default PostService;

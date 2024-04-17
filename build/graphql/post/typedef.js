@@ -15,4 +15,8 @@ exports.typeDefs = `
     userId: String
     message: String
   }
+  type UpdatePostResponse {
+    success: Boolean!
+    message: String
+  }
 `;
