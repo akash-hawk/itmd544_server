@@ -25,12 +25,28 @@ class PostService {
     }
   }
 
-  public static async getAllPosts(){
+  public static async getAllPosts() {
     try {
       const posts = await prismaClient.post.findMany();
       return posts;
     } catch (error) {
       throw new Error("An error occurred while fetching the posts");
+    }
+  }
+
+  public static async getPostById(postId: string) {
+    try {
+      const post = await prismaClient.post.findUnique({
+        where: {
+          id: postId
+        }
+      });
+      if (!post) {
+        throw new Error("Post not found !");
+      }
+      return post;
+    } catch (error) {
+      throw new Error("An error occurred while fetching the post !");
     }
   }
 }

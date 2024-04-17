@@ -40,5 +40,23 @@ class PostService {
             }
         });
     }
+    static getPostById(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const post = yield db_1.prismaClient.post.findUnique({
+                    where: {
+                        id: postId
+                    }
+                });
+                if (!post) {
+                    throw new Error("Post not found !");
+                }
+                return post;
+            }
+            catch (error) {
+                throw new Error("An error occurred while fetching the post !");
+            }
+        });
+    }
 }
 exports.default = PostService;

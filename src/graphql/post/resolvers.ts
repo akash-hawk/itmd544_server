@@ -1,5 +1,4 @@
 import PostService, { CreatePostPayload } from "../../services/post/index";
-import UserService from "../../services/user";
 
 const queries = {
   getPosts: async () => {
@@ -10,7 +9,16 @@ const queries = {
       console.error("Error fetching posts:", err.message);
       throw new Error("Failed to fetch posts");
     }
-  }
+  },
+  getPostById: async (_: any, { postId }: { postId: string }) => {
+    try {
+      const post = await PostService.getPostById(postId);
+      return post;
+    } catch (err: any) {
+      console.error("Error fetching post:", err.message);
+      throw new Error("Failed to fetch post");
+    }
+  },
 };
 
 const mutations = {

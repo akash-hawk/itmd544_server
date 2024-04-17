@@ -24,7 +24,17 @@ const queries = {
             console.error("Error fetching posts:", err.message);
             throw new Error("Failed to fetch posts");
         }
-    })
+    }),
+    getPostById: (_1, _a) => __awaiter(void 0, [_1, _a], void 0, function* (_, { postId }) {
+        try {
+            const post = yield index_1.default.getPostById(postId);
+            return post;
+        }
+        catch (err) {
+            console.error("Error fetching post:", err.message);
+            throw new Error("Failed to fetch post");
+        }
+    }),
 };
 const mutations = {
     createPost: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
