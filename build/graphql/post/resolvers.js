@@ -35,6 +35,16 @@ const queries = {
             throw new Error("Failed to fetch post");
         }
     }),
+    getPostByUserId: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { userId }) {
+        try {
+            const posts = yield index_1.default.getPostByUserId(userId);
+            return posts;
+        }
+        catch (err) {
+            console.error("Error fetching posts:", err.message);
+            throw new Error(err.message);
+        }
+    }),
 };
 const mutations = {
     createPost: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,7 +63,7 @@ const mutations = {
             };
         }
     }),
-    updatePost: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { postId, title, body }) {
+    updatePost: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { postId, title, body }) {
         try {
             yield index_1.default.updatePost(postId, { title, body });
             return {
@@ -68,7 +78,7 @@ const mutations = {
             };
         }
     }),
-    deletePost: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { postId }) {
+    deletePost: (_4, _d) => __awaiter(void 0, [_4, _d], void 0, function* (_, { postId }) {
         try {
             yield index_1.default.deletePost(postId);
             return {

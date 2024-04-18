@@ -4,4 +4,5 @@ exports.queries = void 0;
 exports.queries = `
     getPosts: [Post!]!
     getPostById(postId: String!): Post
+    getPostByUserId(userId: String!): [Post!]!
 `;

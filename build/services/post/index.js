@@ -40,6 +40,21 @@ class PostService {
             }
         });
     }
+    static getPostByUserId(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const posts = yield db_1.prismaClient.post.findMany({
+                    where: {
+                        userId: userId
+                    }
+                });
+                return posts;
+            }
+            catch (error) {
+                throw new Error("An error occurred while fetching the posts");
+            }
+        });
+    }
     static getPostById(postId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

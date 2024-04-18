@@ -34,6 +34,23 @@ class PostService {
     }
   }
 
+  public static async getPostByUserId(userId: string) {
+    try {
+      const posts = await prismaClient.post.findMany(
+        {
+          where: {
+            userId: userId
+          }
+        }
+      );
+      return posts;
+    } catch (error) {
+      throw new Error("An error occurred while fetching the posts");
+    }
+  }
+
+  
+
   public static async getPostById(postId: string) {
     try {
       const post = await prismaClient.post.findUnique({

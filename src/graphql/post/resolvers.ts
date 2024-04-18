@@ -19,6 +19,15 @@ const queries = {
       throw new Error("Failed to fetch post");
     }
   },
+  getPostByUserId: async (_: any, { userId }: { userId: string }) => {
+    try {
+      const posts = await PostService.getPostByUserId(userId);
+      return posts;
+    } catch (err: any) {
+      console.error("Error fetching posts:", err.message);
+      throw new Error(err.message);
+    }
+  },
 };
 
 const mutations = {
