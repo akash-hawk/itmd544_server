@@ -7,6 +7,12 @@ export const typeDefs = `
     profileImage: String
     userType: String
   }
+  type LoginUserResponse {
+    userId: String!
+    token: String!
+    success: Boolean!
+    message: String
+  }
   type CreateUserResponse {
     success: Boolean!
     userId: String

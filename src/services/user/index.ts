@@ -22,7 +22,7 @@ class UserService {
     return createHmac('sha256', salt).update(password).digest('hex');;
   }
 
-  private static getUserByEmail(email: string) {
+  public static getUserByEmail(email: string) {
     return prismaClient.user.findUnique({where: {email}});
   }
 

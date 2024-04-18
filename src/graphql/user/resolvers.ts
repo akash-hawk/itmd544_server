@@ -20,11 +20,28 @@ const queries = {
     }
   },
   getUserToken: async(_: any, payload: {email: string, password: string}) =>{
-    const token = await UserService.getUserToken({ 
-      email: payload.email, 
-      password: payload.password 
-    });
-    return token;
+    try {
+      const token = await UserService.getUserToken({ 
+        email: payload.email, 
+        password: payload.password 
+      });
+      let user = await UserService.getUserByEmail(payload.email);
+      console.log("token", token);
+      console.log("user", user);
+      return {
+        token: token,
+        userId: user && user.id ? user.id : "",
+        message: "",
+        success: true
+      }
+    } catch(err: any) {
+      return {
+        token: "",
+        userId: "",
+        message: err.message,
+        success: false
+      }
+    }
   },
   getCurrentUser: async(_: any, params: any, context: any) => {
     if(context && context.user) {

@@ -2,5 +2,5 @@ export const queries = `
     getUsers: [User!]!
     getCurrentUser: User
     getUserById(userId: String!): User
-    getUserToken(email: String!, password: String!): String
+    getUserToken(email: String!, password: String!): LoginUserResponse
 `;

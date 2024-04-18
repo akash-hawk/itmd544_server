@@ -36,11 +36,29 @@ const queries = {
         }
     }),
     getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
-        const token = yield index_1.default.getUserToken({
-            email: payload.email,
-            password: payload.password
-        });
-        return token;
+        try {
+            const token = yield index_1.default.getUserToken({
+                email: payload.email,
+                password: payload.password
+            });
+            let user = yield index_1.default.getUserByEmail(payload.email);
+            console.log("token", token);
+            console.log("user", user);
+            return {
+                token: token,
+                userId: user && user.id ? user.id : "",
+                message: "",
+                success: true
+            };
+        }
+        catch (err) {
+            return {
+                token: "",
+                userId: "",
+                message: err.message,
+                success: false
+            };
+        }
     }),
     getCurrentUser: (_, params, context) => __awaiter(void 0, void 0, void 0, function* () {
         if (context && context.user) {
