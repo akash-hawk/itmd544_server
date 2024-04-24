@@ -11,9 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../../lib/db");
 class PostService {
-    static createPost(payload) {
+    static createPost(payload, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { title, body, userId } = payload;
+            const { title, body } = payload;
             try {
                 const post = yield db_1.prismaClient.post.create({
                     data: {

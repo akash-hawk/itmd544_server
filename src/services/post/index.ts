@@ -3,19 +3,17 @@ import { prismaClient } from "../../lib/db";
 export interface CreatePostPayload {
   title: string,
   body: string
-  userId: string,
-  image: string
 }
 
 class PostService {
 
-  public static async createPost(payload: CreatePostPayload) {
-    const { title, body, userId } = payload;
+  public static async createPost(payload: CreatePostPayload, userId: string) {
+    const { title, body } = payload;
     try {
       const post = await prismaClient.post.create({
         data: {
           title, 
-          body, 
+          body,
           userId
         }
       });
@@ -48,8 +46,6 @@ class PostService {
       throw new Error("An error occurred while fetching the posts");
     }
   }
-
-  
 
   public static async getPostById(postId: string) {
     try {

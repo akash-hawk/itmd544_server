@@ -29,7 +29,7 @@ class UserService {
   public static async getUserToken(payload: GetUserTokenPayload) {
     const {email, password} = payload;
     const user = await UserService.getUserByEmail(email);
-    if(!user) throw new Error("User not found @!!!");
+    if(!user) throw new Error("User not found with email: " + email);
     // user exists
     const hashedPassword = UserService.generateHash(user.salt, password);
     if(hashedPassword !== user.password) throw new Error("Incorrect Password !");

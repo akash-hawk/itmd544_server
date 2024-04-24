@@ -1,7 +1,14 @@
 import PostService, { CreatePostPayload } from "../../services/post/index";
 
+type contextType = {
+  user: {
+    email: string,
+    id: string
+  }
+}
+
 const queries = {
-  getPosts: async (_:any, param: any, context: any) => {
+  getPosts: async (_:any, param: any, context: contextType) => {
     try {
       const posts = await PostService.getAllPosts();
       return posts;
@@ -19,9 +26,9 @@ const queries = {
       throw new Error("Failed to fetch post");
     }
   },
-  getPostByUserId: async (_: any, { userId }: { userId: string }) => {
+  getPostByUserId: async (_: any, params: any, context: any) => {
     try {
-      const posts = await PostService.getPostByUserId(userId);
+      const posts = await PostService.getPostByUserId(context.user.id);
       return posts;
     } catch (err: any) {
       console.error("Error fetching posts:", err.message);
@@ -31,15 +38,14 @@ const queries = {
 };
 
 const mutations = {
-  createPost: async (_: any, payload: CreatePostPayload) => {
+  createPost: async (_: any, payload: CreatePostPayload, context: contextType) => {
     try {
-      const postId = await PostService.createPost(payload);
+      const postId = await PostService.createPost(payload, context.user.id);
       return {
         success: true,
         postId
       };
     } catch (err: any) {
-      console.error("Error creating post:", err.message);
       return {
         success: false,
         message: err.message

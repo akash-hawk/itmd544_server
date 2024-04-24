@@ -9,8 +9,8 @@ export const typeDefs = `
   }
   type CreatePostResponse {
     success: Boolean!
-    userId: String
     message: String
+    postId: String
   }
   type UpdatePostResponse {
     success: Boolean!

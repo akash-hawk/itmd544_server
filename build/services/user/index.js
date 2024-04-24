@@ -29,7 +29,7 @@ class UserService {
             const { email, password } = payload;
             const user = yield UserService.getUserByEmail(email);
             if (!user)
-                throw new Error("User not found @!!!");
+                throw new Error("User not found with email: " + email);
             // user exists
             const hashedPassword = UserService.generateHash(user.salt, password);
             if (hashedPassword !== user.password)

@@ -35,9 +35,9 @@ const queries = {
             throw new Error("Failed to fetch post");
         }
     }),
-    getPostByUserId: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { userId }) {
+    getPostByUserId: (_, params, context) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const posts = yield index_1.default.getPostByUserId(userId);
+            const posts = yield index_1.default.getPostByUserId(context.user.id);
             return posts;
         }
         catch (err) {
@@ -47,23 +47,22 @@ const queries = {
     }),
 };
 const mutations = {
-    createPost: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    createPost: (_, payload, context) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const postId = yield index_1.default.createPost(payload);
+            const postId = yield index_1.default.createPost(payload, context.user.id);
             return {
                 success: true,
                 postId
             };
         }
         catch (err) {
-            console.error("Error creating post:", err.message);
             return {
                 success: false,
                 message: err.message
             };
         }
     }),
-    updatePost: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { postId, title, body }) {
+    updatePost: (_2, _b) => __awaiter(void 0, [_2, _b], void 0, function* (_, { postId, title, body }) {
         try {
             yield index_1.default.updatePost(postId, { title, body });
             return {
@@ -78,7 +77,7 @@ const mutations = {
             };
         }
     }),
-    deletePost: (_4, _d) => __awaiter(void 0, [_4, _d], void 0, function* (_, { postId }) {
+    deletePost: (_3, _c) => __awaiter(void 0, [_3, _c], void 0, function* (_, { postId }) {
         try {
             yield index_1.default.deletePost(postId);
             return {
