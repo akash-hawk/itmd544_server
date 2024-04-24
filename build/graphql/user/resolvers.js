@@ -36,33 +36,26 @@ const queries = {
         }
     }),
     getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Wemail:" + payload);
         try {
             const token = yield index_1.default.getUserToken({
                 email: payload.email,
                 password: payload.password
             });
+            console.log("Tokenm: " + token);
             let user = yield index_1.default.getUserByEmail(payload.email);
-            if (user) {
-                return {
-                    token: token,
-                    user: user,
-                    message: "",
-                    success: true
-                };
-            }
-            else {
-                return {
-                    token: "",
-                    user: "",
-                    message: "User not found with provided email !",
-                    success: false
-                };
-            }
+            return {
+                token: token,
+                user: user,
+                message: "",
+                success: true
+            };
         }
         catch (err) {
+            console.log("Inside Catch: " + err);
             return {
                 token: "",
-                user: "",
+                user: null,
                 message: err.message,
                 success: false
             };
@@ -79,17 +72,25 @@ const queries = {
 const mutations = {
     createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const userId = yield index_1.default.createUser(payload);
+            const user = yield index_1.default.createUser(payload);
+            const token = yield index_1.default.getUserToken({
+                email: payload.email,
+                password: payload.password
+            });
             return {
-                success: true,
-                userId
+                token: token,
+                user: user,
+                message: "",
+                success: true
             };
         }
         catch (err) {
             console.error("Error creating user:", err.message);
             return {
-                success: false,
-                message: err.message
+                token: "",
+                user: null,
+                message: err.message,
+                success: false
             };
         }
     }),

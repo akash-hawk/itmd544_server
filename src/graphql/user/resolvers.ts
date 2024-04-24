@@ -20,31 +20,25 @@ const queries = {
     }
   },
   getUserToken: async(_: any, payload: {email: string, password: string}) =>{
+    console.log("Wemail:" + payload);
     try {
       const token = await UserService.getUserToken({ 
         email: payload.email, 
         password: payload.password 
       });
+      console.log("Tokenm: " + token)
       let user = await UserService.getUserByEmail(payload.email);
-      if(user) {
         return {
           token: token,
           user: user,
           message: "",
           success: true
-        }
-      } else {
-        return {
-          token: "",
-          user: "",
-          message: "User not found with provided email !",
-          success: false
-        }
       }
     } catch(err: any) {
+      console.log("Inside Catch: " + err);
       return {
         token: "",
-        user: "",
+        user: null,
         message: err.message,
         success: false
       }
@@ -62,16 +56,24 @@ const queries = {
 const mutations = {
   createUser: async (_: any, payload: CreateUserPayload) => {
     try {
-      const userId = await UserService.createUser(payload);
-      return {
-        success: true,
-        userId
-      };
+      const user = await UserService.createUser(payload);
+          const token = await UserService.getUserToken({ 
+            email: payload.email, 
+            password: payload.password 
+          });
+          return {
+            token: token,
+            user: user,
+            message: "",
+            success: true
+        };
     } catch (err: any) {
       console.error("Error creating user:", err.message);
       return {
-        success: false,
-        message: err.message
+        token: "",
+        user: null,
+        message: err.message,
+        success: false
       };
     }
   },

@@ -8,15 +8,10 @@ export const typeDefs = `
     profileImage: String
     userType: String!
   }
-  type LoginUserResponse {
+  type AuthUserResponse {
     user: User
     token: String!
     success: Boolean!
-    message: String
-  }
-  type CreateUserResponse {
-    success: Boolean!
-    userId: String
     message: String
   }
   type UpdateUserResponse {

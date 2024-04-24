@@ -29,7 +29,7 @@ class UserService {
   public static async getUserToken(payload: GetUserTokenPayload) {
     const {email, password} = payload;
     const user = await UserService.getUserByEmail(email);
-    if(!user) throw new Error("User not found !");
+    if(!user) throw new Error("User not found @!!!");
     // user exists
     const hashedPassword = UserService.generateHash(user.salt, password);
     if(hashedPassword !== user.password) throw new Error("Incorrect Password !");
@@ -51,28 +51,39 @@ class UserService {
 
   public static async createUser(payload: CreateUserPayload) {
     const { firstName, lastName, email, password } = payload;
-
+  
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       throw new Error("Invalid email format");
     }
-
+  
     // Validate name length
     if (firstName.length < 2 || lastName.length < 2) {
       throw new Error("First name and last name must be at least 2 characters long");
     }
-
+  
     // Validate password strength (Example: minimum length of 8 characters)
     if (password.length < 8) {
       throw new Error("Password must be at least 8 characters long");
     }
-
+  
     // Generate salt and hash the password
     const salt = randomBytes(32).toString("hex");
     const hashedPassword = UserService.generateHash(salt, password)
-
+  
     try {
+      // Check if user already exists
+      const existingUser = await prismaClient.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+  
+      if (existingUser) {
+        throw new Error("User with this email already exists");
+      }
+  
       // Attempt to create user in the database
       const user = await prismaClient.user.create({
         data: {
@@ -83,14 +94,12 @@ class UserService {
           password: hashedPassword
         }
       });
-
-      // Return the created user's ID
-      return user.id;
-    } catch (error) {
-      // Handle any database-related errors
-      throw new Error("An error occurred while creating the user");
+      return user;
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
+  
 
   public static async getAllUsers(){
     try {

@@ -29,7 +29,7 @@ class UserService {
             const { email, password } = payload;
             const user = yield UserService.getUserByEmail(email);
             if (!user)
-                throw new Error("User not found !");
+                throw new Error("User not found @!!!");
             // user exists
             const hashedPassword = UserService.generateHash(user.salt, password);
             if (hashedPassword !== user.password)
@@ -72,6 +72,15 @@ class UserService {
             const salt = (0, node_crypto_1.randomBytes)(32).toString("hex");
             const hashedPassword = UserService.generateHash(salt, password);
             try {
+                // Check if user already exists
+                const existingUser = yield db_1.prismaClient.user.findUnique({
+                    where: {
+                        email: email,
+                    },
+                });
+                if (existingUser) {
+                    throw new Error("User with this email already exists");
+                }
                 // Attempt to create user in the database
                 const user = yield db_1.prismaClient.user.create({
                     data: {
@@ -82,12 +91,10 @@ class UserService {
                         password: hashedPassword
                     }
                 });
-                // Return the created user's ID
-                return user.id;
+                return user;
             }
             catch (error) {
-                // Handle any database-related errors
-                throw new Error("An error occurred while creating the user");
+                throw new Error(error.message);
             }
         });
     }
