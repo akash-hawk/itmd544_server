@@ -26,18 +26,25 @@ const queries = {
         password: payload.password 
       });
       let user = await UserService.getUserByEmail(payload.email);
-      console.log("token", token);
-      console.log("user", user);
-      return {
-        token: token,
-        userId: user && user.id ? user.id : "",
-        message: "",
-        success: true
+      if(user) {
+        return {
+          token: token,
+          user: user,
+          message: "",
+          success: true
+        }
+      } else {
+        return {
+          token: "",
+          user: "",
+          message: "User not found with provided email !",
+          success: false
+        }
       }
     } catch(err: any) {
       return {
         token: "",
-        userId: "",
+        user: "",
         message: err.message,
         success: false
       }
@@ -90,6 +97,20 @@ const mutations = {
       };
     } catch (err: any) {
       console.error('Error deleting user:', err);
+      return {
+        success: false,
+        message: err.message
+      };
+    }
+  },
+  changeUserActiveStatus: async (_: any, { userId }: {userId: string}) => {
+    try {
+      await UserService.changeUserStatus(userId);
+      return {
+        success: true,
+      };
+    } catch (err: any) {
+      console.error("Error updating user:", err.message);
       return {
         success: false,
         message: err.message

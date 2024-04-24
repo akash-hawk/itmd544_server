@@ -138,6 +138,33 @@ class UserService {
             }
         });
     }
+    static changeUserStatus(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield db_1.prismaClient.user.findUnique({
+                    where: {
+                        id: userId
+                    }
+                });
+                if (user && user.id) {
+                    yield db_1.prismaClient.user.update({
+                        where: {
+                            id: userId
+                        },
+                        data: {
+                            active: user.active,
+                        }
+                    });
+                }
+                else {
+                    throw new Error("User Unauthorised!");
+                }
+            }
+            catch (error) {
+                throw new Error("An error occurred while updating the user");
+            }
+        });
+    }
     static deleteUser(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

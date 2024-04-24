@@ -133,6 +133,30 @@ class UserService {
     }
   }
 
+  public static async changeUserStatus(userId: string) {
+    try {
+      const user = await prismaClient.user.findUnique({
+        where: {
+          id: userId
+        }
+      });
+      if(user && user.id) {
+        await prismaClient.user.update({
+          where: {
+            id: userId
+          },
+          data: {
+            active: user.active,
+          }
+        });
+      } else {
+        throw new Error("User Unauthorised!");
+      }
+    } catch (error) {
+      throw new Error("An error occurred while updating the user");
+    }
+  }
+
   public static async deleteUser(userId: string) {
     try {
       await prismaClient.user.delete({

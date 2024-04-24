@@ -1,7 +1,7 @@
 import PostService, { CreatePostPayload } from "../../services/post/index";
 
 const queries = {
-  getPosts: async () => {
+  getPosts: async (_:any, param: any, context: any) => {
     try {
       const posts = await PostService.getAllPosts();
       return posts;

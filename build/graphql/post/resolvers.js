@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const index_1 = __importDefault(require("../../services/post/index"));
 const queries = {
-    getPosts: () => __awaiter(void 0, void 0, void 0, function* () {
+    getPosts: (_, param, context) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const posts = yield index_1.default.getAllPosts();
             return posts;

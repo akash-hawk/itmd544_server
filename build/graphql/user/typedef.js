@@ -7,11 +7,12 @@ exports.typeDefs = `
     firstName: String!
     lastName: String!
     email: String!
+    active: Boolean!
     profileImage: String
-    userType: String
+    userType: String!
   }
   type LoginUserResponse {
-    userId: String!
+    user: User
     token: String!
     success: Boolean!
     message: String
