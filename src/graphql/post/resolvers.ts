@@ -27,6 +27,7 @@ const queries = {
     }
   },
   getPostByUserId: async (_: any, params: any, context: any) => {
+    console.log("context", context);
     try {
       const posts = await PostService.getPostByUserId(context.user.id);
       return posts;

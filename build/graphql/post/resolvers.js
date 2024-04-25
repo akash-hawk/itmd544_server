@@ -36,6 +36,7 @@ const queries = {
         }
     }),
     getPostByUserId: (_, params, context) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("context", context);
         try {
             const posts = yield index_1.default.getPostByUserId(context.user.id);
             return posts;
