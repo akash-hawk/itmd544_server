@@ -159,7 +159,7 @@ class UserService {
                             id: userId
                         },
                         data: {
-                            active: user.active,
+                            active: !user.active,
                         }
                     });
                 }

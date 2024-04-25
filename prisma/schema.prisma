@@ -38,6 +38,7 @@ model Comment {
   comment String
   post    Post   @relation(fields: [postId], references: [id])
   postId  String @db.ObjectId
+  createdAt DateTime @default(now())
 
   @@map("comments")
 }

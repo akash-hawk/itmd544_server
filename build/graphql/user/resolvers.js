@@ -36,13 +36,11 @@ const queries = {
         }
     }),
     getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("Wemail:" + payload);
         try {
             const token = yield index_1.default.getUserToken({
                 email: payload.email,
                 password: payload.password
             });
-            console.log("Tokenm: " + token);
             let user = yield index_1.default.getUserByEmail(payload.email);
             return {
                 token: token,
@@ -132,7 +130,6 @@ const mutations = {
             };
         }
         catch (err) {
-            console.error("Error updating user:", err.message);
             return {
                 success: false,
                 message: err.message

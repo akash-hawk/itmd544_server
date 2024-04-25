@@ -87,7 +87,7 @@ class PostService {
                 });
             }
             catch (error) {
-                throw new Error("An error occurred while updating the post");
+                throw new Error(error.message);
             }
         });
     }

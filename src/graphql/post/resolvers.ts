@@ -56,10 +56,10 @@ const mutations = {
     try {
       await PostService.updatePost(postId, { title, body });
       return {
-        success: true
+        success: true,
+        postId
       };
     } catch (err: any) {
-      console.error("Error updating post:", err.message);
       return {
         success: false,
         message: err.message

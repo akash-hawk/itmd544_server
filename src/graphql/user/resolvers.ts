@@ -20,13 +20,11 @@ const queries = {
     }
   },
   getUserToken: async(_: any, payload: {email: string, password: string}) =>{
-    console.log("Wemail:" + payload);
     try {
       const token = await UserService.getUserToken({ 
         email: payload.email, 
         password: payload.password 
       });
-      console.log("Tokenm: " + token)
       let user = await UserService.getUserByEmail(payload.email);
         return {
           token: token,
@@ -112,7 +110,6 @@ const mutations = {
         success: true,
       };
     } catch (err: any) {
-      console.error("Error updating user:", err.message);
       return {
         success: false,
         message: err.message

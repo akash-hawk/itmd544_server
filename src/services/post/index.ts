@@ -74,8 +74,8 @@ class PostService {
           body: data.body
         }
       });
-    } catch (error) {
-      throw new Error("An error occurred while updating the post");
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
