@@ -15,18 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("@apollo/server");
 const user_1 = require("./user");
 const post_1 = require("./post");
+const comment_1 = require("./comment");
 const user_2 = __importDefault(require("../services/user"));
 function createApolloServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const gqlServer = new server_1.ApolloServer({
             typeDefs: `
+      ${comment_1.Comment.typeDefs}
       ${user_1.User.typeDefs}
       ${post_1.Post.typeDefs}
       type Query {
+        ${comment_1.Comment.queries}
         ${user_1.User.queries}
         ${post_1.Post.queries}
       }
       type Mutation {
+        ${comment_1.Comment.mutations}
         ${user_1.User.mutations}
         ${post_1.Post.mutations}
       }
@@ -38,8 +42,8 @@ function createApolloServer() {
                         return user;
                     })
                 },
-                Query: Object.assign(Object.assign({}, user_1.User.resolvers.queries), post_1.Post.resolvers.queries),
-                Mutation: Object.assign(Object.assign({}, user_1.User.resolvers.mutations), post_1.Post.resolvers.mutations)
+                Query: Object.assign(Object.assign(Object.assign({}, user_1.User.resolvers.queries), post_1.Post.resolvers.queries), comment_1.Comment.resolvers.queries),
+                Mutation: Object.assign(Object.assign(Object.assign({}, user_1.User.resolvers.mutations), post_1.Post.resolvers.mutations), comment_1.Comment.resolvers.mutations)
             }
         });
         yield gqlServer.start();
